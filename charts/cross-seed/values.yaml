@@ -33,7 +33,7 @@ config:
     
   # A list of data volumes. Will be mounted to the cross-seed container at `mountPoint`
   dataVolumes:
-    - pvcName: myvolume
+    - pvcName: mypvc
       mountPoint: /myvol
       # this should be in relation to the mountPoint above, ie downloads/cross-seed-links will be in
       # /myvol/downloads/cross-seed-links

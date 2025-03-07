@@ -54,14 +54,37 @@ spec:
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.volumeMounts }}
           volumeMounts:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-      {{- with .Values.volumes }}
+            - name: configmap
+              mountPath: /config/config.js
+              subPath: config.js
+            {{- if .Values.persistence.enabled }}
+            - name: config
+              mountPath: /config
+            {{- end }}
+            {{- range .Values.config.dataVolumes }}
+            - name: "{{ .pvcName }}-pvc"
+              mountPath: {{ .mountPoint }}
+            {{- end }}
+            {{- toYaml .Values.volumeMounts | nindent 12 }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.config.secret }}
       volumes:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+        - name: configmap
+          configMap:
+            name: {{ include "cross-seed.fullname" . }}
+        {{- if .Values.persistence.enabled }}
+        - name: config
+          persistentVolumeClaim:
+            claimName: {{ include "cross-seed.fullname" . }}
+        {{- end }}
+        {{- range .Values.config.dataVolumes }}
+        - name: "{{ .pvcName }}-pvc"
+          persistentVolumeClaim:
+            claimName: {{ .pvcName }}
+        {{- end }}
+        {{- toYaml .Values.volumes | nindent 8 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

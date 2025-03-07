@@ -170,7 +170,7 @@ data:
         */
         linkDirs: [
           {{- range .Values.config.dataVolumes }}
-          "{{ .pvcName }}" + "/" + "{{ .linkFolder }}",
+          "{{ .mountPoint }}/{{ .linkFolder }}",
           {{- end }}
         ],
         /**
