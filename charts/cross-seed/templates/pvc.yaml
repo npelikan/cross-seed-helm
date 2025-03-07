@@ -1,5 +1,4 @@
 {{- if .Values.persistence.enabled }}
-{{- with .Values.persistence }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -8,10 +7,9 @@ metadata:
     {{- include "cross-seed.labels" . | nindent 4 }}
 spec:
   accessModes:
-    - {{ .accessMode }}
-  storageClassName: {{ .storageClass }}
+    - {{ .Values.persistence.accessMode }}
+  storageClassName: {{ .Values.persistence.storageClass }}
   resources:
     requests:
-      storage: {{ .size }}
-{{- end }}
+      storage: {{ .Values.persistence.size }}
 {{- end}}
