@@ -6,16 +6,31 @@
 replicaCount: 1
 
 config:
-  # A List of Torznab Urls, from prowlarr or jackett
+  # A List of Torznab Urls, from prowlarr
   torznab:
     - ""
-  qbittorrent:
-    enabled: true
-    hostname: "qbittorrent.example.com:8080"
-    username: "root"
-    # Name of the secret containing the qbittorrent password. 
-    # The secret MUST contain a key named QBITTORRENT_PASSWORD
-    secret: "mysecret"
+  # A secret containing authorization information for services to which cross-seed will authenticate
+  # The secret can contain various keys:
+  # TORZNAB_API_KEY
+  # QBITTORRENT_URL -- The url of your qBittorrent webui. Will look like "http://username:password@example.com:8080"
+  # SONARR_URL -- the url of your sonarr/radarr instance, with API key. See https://www.cross-seed.org/docs/tutorials/id-searching for details
+  # RADARR_URL
+  # RTORRENT_URL -- The url of your rtorrent XMLRPC interface. Could be something like "http://username:password@localhost:1234/RPC2"
+  # TRANSMISSION_URL -- "http://username:password@localhost:9091/transmission/rpc"
+  # DELUGE_URL -- "http://:password@localhost:8112/json"
+  secret: "authsecret"
+
+  # the following options enable torrent clients. The relevant URL *MUST* be set in the secret above
+  torrents:
+    qbittorrent: true
+    rtorrent: false
+    transmission: false
+    deluge: true
+  
+  # enables sonarr and radarr searching. Relevant URLs MUST be set in the secret above
+  sonarr: true
+  radarr: true
+    
   # A list of data volumes. Will be mounted to the cross-seed container at `mountPoint`
   dataVolumes:
     - pvcName: myvolume
@@ -31,6 +46,12 @@ image:
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
+
+persistence:
+  enabled: true
+  storageClass: default
+  accessMode: ReadWriteOnce
+  size: 2G
 
 # This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets: []
