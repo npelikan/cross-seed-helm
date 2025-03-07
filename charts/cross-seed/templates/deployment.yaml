@@ -72,6 +72,8 @@ spec:
           envFrom:
             - secretRef:
                 name: {{ .Values.config.secret }}
+            - secretRef:
+                name: {{ include "cross-seed.fullname" . }}-api-key
       volumes:
         - name: configmap
           configMap:
