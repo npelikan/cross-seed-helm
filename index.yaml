@@ -3,6 +3,17 @@ entries:
   cross-seed:
   - apiVersion: v2
     appVersion: 6.11.2
+    created: "2025-03-08T00:42:29.550122754Z"
+    description: 'A Helm chart for cross-seed.  More information can be found here:
+      https://www.cross-seed.org '
+    digest: b4a065a5d17c8bb366011664a849b36ac600c44a73c35692c83b037a1e745ef1
+    name: cross-seed
+    type: application
+    urls:
+    - https://github.com/npelikan/cross-seed-helm/releases/download/cross-seed-0.2.0/cross-seed-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
+    appVersion: 6.11.2
     created: "2025-03-08T00:37:03.027703672Z"
     description: 'A Helm chart for cross-seed.  More information can be found here:
       https://www.cross-seed.org '
@@ -78,4 +89,4 @@ entries:
     urls:
     - https://github.com/npelikan/cross-seed-helm/releases/download/cross-seed-0.1.0/cross-seed-0.1.0.tgz
     version: 0.1.0
-generated: "2025-03-08T00:37:03.027735461Z"
+generated: "2025-03-08T00:42:29.550152229Z"
